@@ -1,21 +1,18 @@
 import argparse
 import string
 import random
-
-# import qrcode
 from qrcode.main import QRCode
 
 
 class PasswordGenerator:
 
 
-    def __init__(self, length, use_uppercase, use_numbers, use_special, use_qrcode) -> None:
+    def __init__(self, length, use_uppercase, use_numbers, use_special) -> None:
         self.length = length
         self.use_uppercase = use_uppercase
         self.use_numbers = use_numbers
         self.use_special = use_special
-        self.use_qrcode = use_qrcode
-     
+             
         
     def generate_password(length=12, use_uppercase=True, use_numbers=True, use_special=True):
         chars = string.ascii_lowercase
@@ -35,7 +32,6 @@ class PasswordGenerator:
     def generate_qrcode(data="http://www.lincolnloop.com", *args, **kwargs):
         qr = QRCode(*args, **kwargs)
         qr.add_data(data)
-
         im = qr.make_image()
         im.show()
     
@@ -53,14 +49,14 @@ def main():
     parser.add_argument("-u", "--uppercase", action="store_true")
     parser.add_argument("-n", "--numbers", action="store_true")
     parser.add_argument("-s", "--special", action="store_true")
-    parser.add_argument("-qr", "--qrcode", action="store_true")
     args = parser.parse_args()
 
     try:
-        pw_gen = PasswordGenerator(args.length, args.uppercase, args.numbers, args.special, args.qrcode)
+        pw_gen = PasswordGenerator(args.length, args.uppercase, args.numbers, args.special)
         pw_gen = PasswordGenerator.generate_password()        
         print("Your generated password is:", pw_gen)
         qr_code = PasswordGenerator.generate_qrcode(version=1,box_size=5,border=5)
+        return qr_code
     except ValueError as e:     
         print("Error:", e)
 

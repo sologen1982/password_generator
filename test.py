@@ -69,7 +69,8 @@ def main():
     try:
         password = PasswordGenerator.generate_password(args.length, args.uppercase, args.numbers, args.special)
         print("Your generated password is:", password)
-        # qr_code = PasswordGenerator.generate_qrcode()
+        qr_code = PasswordGenerator.generate_qrcode(version=1,box_size=5,border=5)
+        return qr_code
     except ValueError as e:     
         print("Error:", e)
 
