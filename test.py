@@ -2,7 +2,7 @@ import argparse
 import string
 import random
 
-# import qrcode
+import qrcode
 from qrcode.main import QRCode
 
 
@@ -39,6 +39,16 @@ class PasswordGenerator:
         im = qr.make_image()
         im.show()
     
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data('Some data')
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
 
     # Additional Option
     # Create QR Code
@@ -57,10 +67,9 @@ def main():
     args = parser.parse_args()
 
     try:
-        pw_gen = PasswordGenerator(args.length, args.uppercase, args.numbers, args.special, args.qrcode)
-        pw_gen = PasswordGenerator.generate_password()        
-        print("Your generated password is:", pw_gen)
-        qr_code = PasswordGenerator.generate_qrcode(version=1,box_size=5,border=5)
+        password = PasswordGenerator.generate_password(args.length, args.uppercase, args.numbers, args.special)
+        print("Your generated password is:", password)
+        # qr_code = PasswordGenerator.generate_qrcode()
     except ValueError as e:     
         print("Error:", e)
 
